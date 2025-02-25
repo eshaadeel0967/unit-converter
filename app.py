@@ -89,23 +89,164 @@ elif selected_category == 'Digital Storage':
         index=1  
     )
 elif selected_category == 'Energy':
-    print('Energy')
+    unit_type = [
+    "Joule",
+    "Kilojoule",
+    "Gram calorie",
+    "Kilocalorie",
+    "Watt hour",
+    "Kilowatt-hour",
+    "Electronvolt",
+    "British thermal unit",
+    "US therm",
+    "Foot-pound"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
+    
 elif selected_category == 'Frequency':
-    print('Frequency')
+    unit_type = [
+    "Hertz",
+    "Kilohertz",
+    "Megahertz",
+    "Gigahertz"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Fuel Economy':
-    print('Fuel Economy')
+    unit_type = [
+    "Mile per US gallon",
+    "Mile per gallon",
+    "Kilometer per liter",
+    "Litre per 100 kilometres"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Length':
-    print('Length')
+    unit_type = [
+    "Kilometre",
+    "Metre",
+    "Centimetre",
+    "Millimetre",
+    "Micrometre",
+    "Nanometre",
+    "Mile",
+    "Yard",
+    "Foot",
+    "Inch",
+    "Nautical mile"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Mass':
-    print('Mass')
+    unit_type =[
+    "Tonne",
+    "Kilogram",
+    "Gram",
+    "Milligram",
+    "Microgram",
+    "Imperial ton",
+    "US ton",
+    "Stone",
+    "Pound",
+    "Ounce"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Plane Angle':
-    print('Plane Angle')
+    unit_type = [
+    "Arcsecond",
+    "Degree",
+    "Gradian",
+    "Milliradian",
+    "Minute of arc",
+    "Radian"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Pressure':
-    print('Pressure')
+    unit_type =[
+    "Bar", 
+    "Pascal", 
+    "Pound per square inch", 
+    "Standard atmosphere", 
+    "Torr"]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
+    
 elif selected_category == 'Speed':
-    print('Speed')
+    unit_type = [
+    "Mile per hour", 
+    "Foot per second", 
+    "Metre per second", 
+    "Kilometre per hour", 
+    "Knot"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Temperature':
-    print('Temperature')
+    unit_type = [
+    "Degree Celsius", 
+    "Fahrenheit", 
+    "Kelvin"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Time':
-    print('Time')
+    unit_type = [
+    "Nanosecond", 
+    "Microsecond", 
+    "Millisecond",
+    "Second", 
+    "Minute",
+    "Hour", 
+    "Day", 
+    "Week", 
+    "Month", 
+    "Calendar year", 
+    "Decade", 
+    "Century"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 
