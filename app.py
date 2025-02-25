@@ -18,15 +18,76 @@ measurement_categories = [
 ]
 st.title('Unit Converter')
 
-st.form('Unit converter')
-selected_category= st.selectbox('Types', measurement_categories)
+selected_category= st.selectbox('', measurement_categories)
 
 if selected_category == 'Area':
-    print('Area')
+    unit_type = [
+    "Square kilometre",
+    "Square metre",
+    "Square foot", 
+    "Square inch", 
+    "Square mile" ,
+    "Square yard",
+    "Acre", 
+    "Hectare"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type ,
+    )
+
 elif selected_category == 'Data Transfer Rate':
-    print('Data Transfer Rate')
+    unit_type = [
+    "Bit per second",
+    "Kilobit per second",
+    "Kilobyte per second",
+    "Kibibit per second",
+    "Megabit per second",
+    "Megabyte per second",
+    "Mebibit per second",
+    "Gigabit per second",
+    "Gigabyte per second",
+    "Gibibit per second",
+    "Terabit per second",
+    "Terabyte per second",
+    "Tebibit per second"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
+   
 elif selected_category == 'Digital Storage':
-    print('Digital Storage')
+    unit_type = [
+    "Bit",
+    "Kilobit",
+    "Kibibit",
+    "Megabit",
+    "Gigabit",
+    "Gibibit",
+    "Terabit",
+    "Tebibit",
+    "Pebibit",
+    "Byte",
+    "Kilobyte",
+    "Kibibyte",
+    "Megabyte",
+    "Gigabyte",
+    "Gibibyte",
+    "Terabyte",
+    "Tebibyte",
+    "Petabyte",
+    "Pebibyte"
+]
+    input= st.text_input("From:")
+    unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
 elif selected_category == 'Energy':
     print('Energy')
 elif selected_category == 'Frequency':
