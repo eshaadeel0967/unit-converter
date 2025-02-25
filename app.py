@@ -1,4 +1,5 @@
 import streamlit as st
+import pint
 
 measurement_categories = [
     "Area",
@@ -20,6 +21,10 @@ st.title('Unit Converter')
 
 selected_category= st.selectbox('', measurement_categories)
 
+ureg = pint.UnitRegistry()
+
+
+
 if selected_category == 'Area':
     unit_type = [
     "Square kilometre",
@@ -31,9 +36,14 @@ if selected_category == 'Area':
     "Acre", 
     "Hectare"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
+       unit_type ,
+    )
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
        unit_type ,
     )
 
@@ -53,11 +63,17 @@ elif selected_category == 'Data Transfer Rate':
     "Terabyte per second",
     "Tebibit per second"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
    
 elif selected_category == 'Digital Storage':
@@ -82,11 +98,17 @@ elif selected_category == 'Digital Storage':
     "Petabyte",
     "Pebibyte"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
 elif selected_category == 'Energy':
     unit_type = [
@@ -101,11 +123,17 @@ elif selected_category == 'Energy':
     "US therm",
     "Foot-pound"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
     
 elif selected_category == 'Frequency':
@@ -115,11 +143,17 @@ elif selected_category == 'Frequency':
     "Megahertz",
     "Gigahertz"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
 elif selected_category == 'Fuel Economy':
     unit_type = [
@@ -128,12 +162,19 @@ elif selected_category == 'Fuel Economy':
     "Kilometer per liter",
     "Litre per 100 kilometres"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
     )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
+    )
+
 elif selected_category == 'Length':
     unit_type = [
     "Kilometre",
@@ -148,12 +189,19 @@ elif selected_category == 'Length':
     "Inch",
     "Nautical mile"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
     )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
+    )
+
 elif selected_category == 'Mass':
     unit_type =[
     "Tonne",
@@ -167,11 +215,17 @@ elif selected_category == 'Mass':
     "Pound",
     "Ounce"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
 elif selected_category == 'Plane Angle':
     unit_type = [
@@ -182,11 +236,17 @@ elif selected_category == 'Plane Angle':
     "Minute of arc",
     "Radian"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
 elif selected_category == 'Pressure':
     unit_type =[
@@ -195,13 +255,19 @@ elif selected_category == 'Pressure':
     "Pound per square inch", 
     "Standard atmosphere", 
     "Torr"]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
     )
     
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
+    )
+
 elif selected_category == 'Speed':
     unit_type = [
     "Mile per hour", 
@@ -210,11 +276,17 @@ elif selected_category == 'Speed':
     "Kilometre per hour", 
     "Knot"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
 elif selected_category == 'Temperature':
     unit_type = [
@@ -222,11 +294,17 @@ elif selected_category == 'Temperature':
     "Fahrenheit", 
     "Kelvin"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
     )
 elif selected_category == 'Time':
     unit_type = [
@@ -243,10 +321,50 @@ elif selected_category == 'Time':
     "Decade", 
     "Century"
 ]
-    input= st.text_input("From:")
-    unit = st.selectbox(
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
        "From unit:", 
        unit_type , 
         index=1  
     )
 
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
+    )
+
+elif selected_category == 'Volume':
+    unit_type = [
+    "US liquid gallon",  
+    "US liquid quart" ,
+    "US liquid pint",
+    "US legal cup"   , 
+    "US fluid ounce" ,
+    "US tablespoon"  ,
+    "US teaspoon"  ,
+    "Cubic meter"   , 
+    "Liter"  ,
+    "Milliliter",  
+    "Imperial gallon",  
+    "Imperial quart"  ,
+    "Imperial pint"  ,
+    "Imperial cup"  ,
+    "Imperial fluid ounce",
+    "Imperial tablespoon"  ,
+    "Imperial teaspoon"  ,
+    "Cubic foot"  ,
+    "Cubic inch"  
+]
+    from_value= st.text_input("From:")
+    from_unit = st.selectbox(
+       "From unit:", 
+       unit_type , 
+        index=1  
+    )
+
+    result= st.text_input("To:")
+    to_unit = st.selectbox(
+       "To unit:", 
+       unit_type ,
+    )
