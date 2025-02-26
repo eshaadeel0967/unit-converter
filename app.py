@@ -1,8 +1,10 @@
 import streamlit as st
 import pint
 
+# Create a UnitRegistry
 ureg = pint.UnitRegistry()
 
+# Unit category mapping
 unit_category_map = {
     "Area": "area",
     "Data Transfer Rate": "data_rate",
@@ -20,174 +22,165 @@ unit_category_map = {
     "Volume": "volume",
 }
 
+# Define measurement categories and their corresponding unit names
 measurement_categories = list(unit_category_map.keys())
+
 unit_type = {
-    "Area":[
-    "Square kilometre",
-    "Square metre",
-    "Square foot", 
-    "Square inch", 
-    "Square mile" ,
-    "Square yard",
-    "Acre", 
-    "Hectare"],
-    "Data Transfer Rate":[
-    "Bit per second",
-    "Kilobit per second",
-    "Kilobyte per second",
-    "Kibibit per second",
-    "Megabit per second",
-    "Megabyte per second",
-    "Mebibit per second",
-    "Gigabit per second",
-    "Gigabyte per second",
-    "Gibibit per second",
-    "Terabit per second",
-    "Terabyte per second",
-    "Tebibit per second"
-],
-    "Digital Storage":[
-    "Bit",
-    "Kilobit",
-    "Kibibit",
-    "Megabit",
-    "Gigabit",
-    "Gibibit",
-    "Terabit",
-    "Tebibit",
-    "Pebibit",
-    "Byte",
-    "Kilobyte",
-    "Kibibyte",
-    "Megabyte",
-    "Gigabyte",
-    "Gibibyte",
-    "Terabyte",
-    "Tebibyte",
-    "Petabyte",
-    "Pebibyte"
-],
+    "Area": [
+        "square_kilometer",
+        "square_meter",
+        "square_foot",
+        "square_inch",
+        "square_mile",
+        "square_yard",
+        "acre",
+        "hectare",
+    ],
+    "Data Transfer Rate": [
+        "bit / second",
+        "kilobit / second",
+        "kilobyte / second",
+        "kibibit / second",
+        "megabit / second",
+        "megabyte / second",
+        "mebibit / second",
+        "gigabit / second",
+        "gigabyte / second",
+        "gibibit / second",
+        "terabit / second",
+        "terabyte / second",
+        "tebibit / second",
+    ],
+    "Digital Storage": [
+        "bit",
+        "kilobit",
+        "kibibit",
+        "megabit",
+        "gigabit",
+        "gibibit",
+        "terabit",
+        "tebibit",
+        "pebibit",
+        "byte",
+        "kilobyte",
+        "kibibyte",
+        "megabyte",
+        "gigabyte",
+        "gibibyte",
+        "terabyte",
+        "tebibyte",
+        "petabyte",
+        "pebibyte",
+    ],
     "Energy": [
-    "Joule",
-    "Kilojoule",
-    "Gram calorie",
-    "Kilocalorie",
-    "Watt hour",
-    "Kilowatt-hour",
-    "Electronvolt",
-    "British thermal unit",
-    "US therm",
-    "Foot-pound"
-],
-    "Frequency": [
-    "Hertz",
-    "Kilohertz",
-    "Megahertz",
-    "Gigahertz"
-],
-    "Fuel Economy" : [
-    "Mile per US gallon",
-    "Mile per gallon",
-    "Kilometer per liter",
-    "Litre per 100 kilometres"
-],
-    "Length" : [
-    "Kilometre",
-    "Metre",
-    "Centimetre",
-    "Millimetre",
-    "Micrometre",
-    "Nanometre",
-    "Mile",
-    "Yard",
-    "Foot",
-    "Inch",
-    "Nautical mile"
-],
-    "Mass" : [
-    "Tonne",
-    "Kilogram",
-    "Gram",
-    "Milligram",
-    "Microgram",
-    "Imperial ton",
-    "US ton",
-    "Stone",
-    "Pound",
-    "Ounce"
-],
-    "Plane Angle" : [
-    "Arcsecond",
-    "Degree",
-    "Gradian",
-    "Milliradian",
-    "Minute of arc",
-    "Radian"
-],
-    "Pressure" : [
-    "Bar", 
-    "Pascal", 
-    "Pound per square inch", 
-    "Standard atmosphere", 
-    "Torr"],
-    "Speed" :  [
-    "Mile per hour", 
-    "Foot per second", 
-    "Metre per second", 
-    "Kilometre per hour", 
-    "Knot"
-],
-    "Temperature" :  [
-    "Degree Celsius", 
-    "Fahrenheit", 
-    "Kelvin"
-],
-    "Time" : [
-    "Nanosecond", 
-    "Microsecond", 
-    "Millisecond",
-    "Second", 
-    "Minute",
-    "Hour", 
-    "Day", 
-    "Week", 
-    "Month", 
-    "Calendar year", 
-    "Decade", 
-    "Century"
-],
-    "Volume" : [
-    "US liquid gallon",  
-    "US liquid quart" ,
-    "US liquid pint",
-    "US legal cup"   , 
-    "US fluid ounce" ,
-    "US tablespoon"  ,
-    "US teaspoon"  ,
-    "Cubic meter"   , 
-    "Liter"  ,
-    "Milliliter",  
-    "Imperial gallon",  
-    "Imperial quart"  ,
-    "Imperial pint"  ,
-    "Imperial cup"  ,
-    "Imperial fluid ounce",
-    "Imperial tablespoon"  ,
-    "Imperial teaspoon"  ,
-    "Cubic foot"  ,
-    "Cubic inch"  
-]
+        "joule",
+        "kilojoule",
+        "calorie",
+        "kilocalorie",
+        "watt_hour",
+        "kilowatt_hour",
+        "electronvolt",
+        "btu",
+        "therm",
+        "foot_pound",
+    ],
+    "Frequency": ["hertz", "kilohertz", "megahertz", "gigahertz"],
+    "Fuel Economy": [
+        "mile / gallon",
+        "mile / us_gallon",
+        "kilometer / liter",
+        "liter / 100_kilometer",
+    ],
+    "Length": [
+        "kilometer",
+        "meter",
+        "centimeter",
+        "millimeter",
+        "micrometer",
+        "nanometer",
+        "mile",
+        "yard",
+        "foot",
+        "inch",
+        "nautical_mile",
+    ],
+    "Mass": [
+        "tonne",
+        "kilogram",
+        "gram",
+        "milligram",
+        "microgram",
+        "imperial_ton",
+        "us_ton",
+        "stone",
+        "pound",
+        "ounce",
+    ],
+    "Plane Angle": [
+        "arcsecond",
+        "degree",
+        "gradian",
+        "milliradian",
+        "arcminute",
+        "radian",
+    ],
+    "Pressure": ["bar", "pascal", "psi", "atmosphere", "torr"],
+    "Speed": [
+        "mile / hour",
+        "foot / second",
+        "meter / second",
+        "kilometer / hour",
+        "knot",
+    ],
+    "Temperature": ["celsius", "fahrenheit", "kelvin"],
+    "Time": [
+        "nanosecond",
+        "microsecond",
+        "millisecond",
+        "second",
+        "minute",
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year",
+        "decade",
+        "century",
+    ],
+    "Volume": [
+        "us_gallon",
+        "us_quart",
+        "us_pint",
+        "us_cup",
+        "us_fluid_ounce",
+        "us_tablespoon",
+        "us_teaspoon",
+        "cubic_meter",
+        "liter",
+        "milliliter",
+        "imperial_gallon",
+        "imperial_quart",
+        "imperial_pint",
+        "imperial_cup",
+        "imperial_fluid_ounce",
+        "imperial_tablespoon",
+        "imperial_teaspoon",
+        "cubic_foot",
+        "cubic_inch",
+    ],
 }
-st.title('Unit Converter')
 
-selected_category= st.selectbox('Select Measurement Type', measurement_categories)
+# Streamlit UI
+st.title("Unit Converter")
 
+selected_category = st.selectbox("Select Measurement Type", measurement_categories)
 
 from_unit = st.selectbox("From Unit:", unit_type[selected_category])
 to_unit = st.selectbox("To Unit:", unit_type[selected_category])
 
 # Input value
 from_value = st.number_input("Enter Value:", min_value=1.0, format="%.2f")
+
 
 # Function to handle conversion
 def convert_units(value, from_unit, to_unit):
@@ -197,6 +190,7 @@ def convert_units(value, from_unit, to_unit):
     except Exception as e:
         return None, str(e)
 
+
 # Convert button
 if st.button("Convert"):
     result, unit = convert_units(from_value, from_unit, to_unit)
@@ -204,5 +198,3 @@ if st.button("Convert"):
         st.success(f"{from_value} {from_unit} = {result:.4f} {unit}")
     else:
         st.error(f"Conversion error: {unit}")
-
-
