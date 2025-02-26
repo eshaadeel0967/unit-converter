@@ -21,14 +21,14 @@ unit_category_map = {
 measurement_categories = list(unit_category_map.keys())
 unit_type = {
     "Area":[
-        "Square kilometre",
-        "Square metre",
-        "Square foot", 
-        "Square inch", 
-        "Square mile" ,
-        "Square yard",
-        "Acre", 
-        "Hectare"],
+    "Square kilometre",
+    "Square metre",
+    "Square foot", 
+    "Square inch", 
+    "Square mile" ,
+    "Square yard",
+    "Acre", 
+    "Hectare"],
     "Data Transfer Rate":[
     "Bit per second",
     "Kilobit per second",
@@ -184,196 +184,17 @@ ureg = pint.UnitRegistry()
 
 from_unit = st.selectbox("From Unit:", unit_type[selected_category])
 to_unit = st.selectbox("To Unit:", unit_type[selected_category])
-
-
-
-if selected_category == 'Area':
-    from_value= st.number_input("From:", min_value=1)
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type ,
-    )
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-
-elif selected_category == 'Data Transfer Rate':
-   
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-   
-elif selected_category == 'Digital Storage':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-elif selected_category == 'Energy':
+from_value= st.number_input("From:", min_value=1)
+def convert_units(value, from_unit, to_unit):
+    try:
+        result = (value * ureg(from_unit)).to(to_unit)
+        return result.magnitude, result.units
+    except Exception as e:
+        return None, str(e)
+result, unit = convert_units(from_value, from_unit, to_unit)
+if result is not None:
+    st.success(f"{from_value} {from_unit} is equal t {result:.4f} {unit}")
+else:
+    st.error(f"Conversion error: {unit}")
     
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
 
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-    
-elif selected_category == 'Frequency':
-
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-elif selected_category == 'Fuel Economy':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-
-elif selected_category == 'Length':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-
-elif selected_category == 'Mass':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-elif selected_category == 'Plane Angle':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-elif selected_category == 'Pressure':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-    
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-
-elif selected_category == 'Speed':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-elif selected_category == 'Temperature':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-elif selected_category == 'Time':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
-
-elif selected_category == 'Volume':
-    from_value= st.number_input("From:")
-    from_unit = st.selectbox(
-       "From unit:", 
-       unit_type , 
-        index=1  
-    )
-
-    result= st.text_input("To:")
-    to_unit = st.selectbox(
-       "To unit:", 
-       unit_type ,
-    )
