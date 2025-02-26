@@ -1,6 +1,8 @@
 import streamlit as st
 import pint
 
+ureg = pint.UnitRegistry()
+
 unit_category_map = {
     "Area": "area",
     "Data Transfer Rate": "data_rate",
@@ -180,21 +182,27 @@ st.title('Unit Converter')
 
 selected_category= st.selectbox('Select Measurement Type', measurement_categories)
 
-ureg = pint.UnitRegistry()
 
 from_unit = st.selectbox("From Unit:", unit_type[selected_category])
 to_unit = st.selectbox("To Unit:", unit_type[selected_category])
-from_value= st.number_input("From:", min_value=1)
+
+# Input value
+from_value = st.number_input("Enter Value:", min_value=1.0, format="%.2f")
+
+# Function to handle conversion
 def convert_units(value, from_unit, to_unit):
     try:
         result = (value * ureg(from_unit)).to(to_unit)
         return result.magnitude, result.units
     except Exception as e:
         return None, str(e)
-result, unit = convert_units(from_value, from_unit, to_unit)
-if result is not None:
-    st.success(f"{from_value} {from_unit} is equal t {result:.4f} {unit}")
-else:
-    st.error(f"Conversion error: {unit}")
-    
+
+# Convert button
+if st.button("Convert"):
+    result, unit = convert_units(from_value, from_unit, to_unit)
+    if result is not None:
+        st.success(f"{from_value} {from_unit} = {result:.4f} {unit}")
+    else:
+        st.error(f"Conversion error: {unit}")
+
 
