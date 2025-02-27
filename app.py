@@ -137,7 +137,7 @@ unit_type = {
         "kilometer / hour",
         "knot",
     ],
-    "Temperature": ["celsius", "fahrenheit", "kelvin"],
+    "Temperature": ["degree_Celsius", "degree_Fahrenheit", "kelvin"],
     "Time": [
         "nanosecond",
         "microsecond",
@@ -227,6 +227,7 @@ ureg.define("us_liquid_pint = us_liquid_quart / 2")
 ureg.define("us_fluid_ounce = us_liquid_gallon / 128")
 ureg.define("us_tablespoon = us_fluid_ounce / 2")
 ureg.define("us_teaspoon = us_tablespoon / 3")
+ureg.define("us_ton = 907.18474 * kilogram") 
 ureg.define("imperial_gallon = 4.54609 * liter")
 ureg.define("imperial_quart = imperial_gallon / 4")
 ureg.define('imperial_ton = 1016.0469088 * kilogram')
@@ -247,19 +248,51 @@ from_unit = st.selectbox("From Unit:", unit_type[selected_category])
 to_unit = st.selectbox("To Unit:", unit_type[selected_category])
 
 
-from_value = st.number_input("From:", min_value=1.0, format="%.2f")
+value = st.number_input("From:", min_value=1.0, format="%.2f")
 
+if selected_category == "Temperature":
+    def convert_units(value, from_unit, to_unit):
+        from_unit = from_unit.lower()  # Case insensitive comparison
+        to_unit = to_unit.lower()
 
-def convert_units(value, from_unit, to_unit):
-    try:
-        result = (value * ureg(from_unit)).to(to_unit)
-        return result.magnitude, result.units
-    except Exception as e:
-        return None, str(e)
+        if from_unit == to_unit:
+            return value  # Same unit, no conversion
 
+        if from_unit == "Celsius":
+            if to_unit == "Fahrenheit":
+                return (value * 9/5) + 32
+            elif to_unit == "Kelvin":
+                return value + 273.15
 
-result, unit = convert_units(from_value, from_unit, to_unit)
-if result is not None:
-    st.success(f"{from_value} {from_unit} = {result:.4f} {unit}")
+        elif from_unit == "Fahrenheit":
+            if to_unit == "Celsius":
+                return (value - 32) * 5/9
+            elif to_unit == "Kelvin":
+                return (value - 32) * 5/9 + 273.15
+
+        elif from_unit == "Kelvin":
+            if to_unit == "Celsius":
+                return value - 273.15
+            elif to_unit == "Fahrenheit":
+                return (value - 273.15) * 9/5 + 32
+
+        return None 
 else:
-    st.error(f"Conversion error: {unit}")
+    def convert_units(value, from_unit, to_unit):
+        try:
+            result = (value * ureg(from_unit)).to(to_unit)
+            return result.magnitude, result.units
+        except Exception as e:
+            return None, str(e)
+if selected_category == "Temperature":
+    result = convert_units(value, from_unit, to_unit)
+    if result is not None:
+        st.success(f"{value} {from_unit} = {result:.2f} {to_unit}")
+    else:
+        st.error("Conversion error: Invalid conversion")
+else:
+    result, unit = convert_units(value, from_unit, to_unit)
+    if result is not None:
+        st.success(f"{value} {from_unit} = {result:.4f} {unit}")
+    else:
+        st.error(f"Conversion error: {unit}")
