@@ -175,11 +175,6 @@ unit_type = {
     ],
 }
 
-import pint
-
-# Create a custom unit registry
-ureg = pint.UnitRegistry()
-
 ureg.define("square_meter = meter ** 2 = sq_m")
 ureg.define("square_kilometer = 1e6 * square_meter = sq_km")
 ureg.define("square_yard = 0.836127 * square_meter = sq_yd")
