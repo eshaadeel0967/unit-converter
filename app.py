@@ -137,20 +137,23 @@ unit_type = {
         "kilometer / hour",
         "knot",
     ],
-    "Temperature": ["degree_Celsius", "degree_Fahrenheit", "kelvin"],
-    "Time": [
+    "Temperature": [
+        "degree_Celsius", 
+        "degree_Fahrenheit", 
+        "kelvin"
+    ],
+    "Time":[
         "nanosecond",
         "microsecond",
         "millisecond",
         "second",
-        "minute",
+        "minute", 
         "hour",
         "day",
         "week",
-        "month",
         "year",
-        "decade",
-        "century",
+        "decade", # Define on-the-fly
+        "century"
     ],
     "Volume": [
         "us_gallon",
@@ -174,6 +177,8 @@ unit_type = {
         "cubic_inch",
     ],
 }
+
+
 
 ureg.define("square_meter = meter ** 2 = sq_m")
 ureg.define("square_kilometer = 1e6 * square_meter = sq_km")
@@ -213,13 +218,11 @@ ureg.define("gradian = 0.9 * degree")  # 1 gradian = 0.9 degrees
 ureg.define("milliradian = 1e-3 * radian")
 ureg.define("standard_atmosphere = 101325 * pascal")
 ureg.define("torr = 133.322368 * pascal")
-ureg.define("calendar_year = 365.25 * day")  # Average year accounting for leap years
-ureg.define("decade = 10 * calendar_year")
-ureg.define("century = 100 * calendar_year")
-ureg.define("us_liquid_gallon = 3.785411784 * liter")
-ureg.define("us_liquid_quart = us_liquid_gallon / 4")
-ureg.define("us_liquid_pint = us_liquid_quart / 2")
-ureg.define("us_fluid_ounce = us_liquid_gallon / 128")
+ureg.define("us_gallon = 3.785411784 * liter")
+ureg.define("us_quart = us_gallon / 4")
+ureg.define("us_pint = us_quart / 2")
+ureg.define("us_fluid_ounce = us_gallon / 128")
+ureg.define("us_cup = 8 * us_fluid_ounce")
 ureg.define("us_tablespoon = us_fluid_ounce / 2")
 ureg.define("us_teaspoon = us_tablespoon / 3")
 ureg.define("us_ton = 907.18474 * kilogram") 
@@ -231,63 +234,100 @@ ureg.define("imperial_cup = imperial_gallon / 10")  # Note: definitions for a cu
 ureg.define("imperial_fluid_ounce = imperial_gallon / 160")
 ureg.define("imperial_tablespoon = imperial_fluid_ounce / 2")
 ureg.define("imperial_teaspoon = imperial_tablespoon / 3")
+ureg.define("cubic_meter = meter ** 3")
 ureg.define("cubic_foot = foot ** 3")
 ureg.define("cubic_inch = inch ** 3")
 
 
-st.title("Unit Converter")
+def convert_temperature(value, from_unit, to_unit):
+    unit_map = {
+        "degree_Celsius": "Celsius",
+        "degree_Fahrenheit": "Fahrenheit",
+        "kelvin": "Kelvin"
+        }
+    from_unit = unit_map.get(from_unit, from_unit)
+    to_unit = unit_map.get(to_unit, to_unit)
+    
+    if from_unit == "Celsius" and to_unit == "Fahrenheit":
+        result = (value * 9/5) + 32
+        formula = f"({value} × 9/5) + 32 = {result}"
+    elif from_unit == "Fahrenheit" and to_unit == "Celsius":
+        result = (value - 32) * 5/9
+        formula = f"({value} - 32) × 5/9 = {result}"
+    elif from_unit == "Celsius" and to_unit == "Kelvin":
+        result = value + 273.15
+        formula = f"{value} + 273.15 = {result}"
+    elif from_unit == "Kelvin" and to_unit == "Celsius":
+        result = value - 273.15
+        formula = f"{value} - 273.15 = {result}"
+    elif from_unit == "Fahrenheit" and to_unit == "Kelvin":
+        result = (value - 32) * 5/9 + 273.15
+        formula = f"(({value} - 32) × 5/9) + 273.15 = {result})"
+    elif from_unit == "Kelvin" and to_unit == "Fahrenheit":
+        result = (value - 273.15) * 9/5 + 32
+        formula = f"(({value} - 273.15) × 9/5) + 32 = {result})"
+    else:
+        result = value
+        formula = f"{value} {from_unit} = {value} {to_unit}"  # No conversion needed
 
+    return result, formula
+
+# Function for unit conversion
+def convert_units(value, from_unit, to_unit, category):
+    try:
+        if category == "Temperature":
+            return convert_temperature(value, from_unit, to_unit)
+           
+        elif category == "Time":
+            
+            time_units = {
+            "second": "second",
+            "minute": "minute", 
+            "hour": "hour",
+            "day": "day",
+            "week": "week",
+            "year": "year",
+            "decade": "10* year", # Define on-the-fly
+            "century":"100 * year",  # Define on-the-fly
+            "nanosecond": "nanosecond",
+            "microsecond": "microsecond",
+            "millisecond": "millisecond"
+        }
+            # Use the unit definitions from our dictionary
+            from_unit = time_units[from_unit]
+            to_unit = time_units[to_unit]
+        
+            result = (value * ureg(from_unit)).to(ureg(to_unit))
+            conversion_factor = result.magnitude / value if value != 0 else "N/A"
+            formula = f"{value} {from_unit} × {conversion_factor} = {result.magnitude} {to_unit}"
+            return result.magnitude, formula
+        else:
+            # General case for other conversions
+            quantity = ureg.Quantity(value, from_unit)
+            result = quantity.to(to_unit)
+            conversion_factor = result.magnitude / value if value != 0 else "N/A"
+            formula = f"{value} {from_unit} × {conversion_factor} = {result.magnitude} {to_unit}"
+            return result.magnitude, formula
+    except Exception as e:
+        return None, str(e)
+
+st.title('Unit Converter')
 selected_category = st.selectbox("Select Measurement Type", measurement_categories)
 
 from_unit = st.selectbox("From Unit:", unit_type[selected_category])
 to_unit = st.selectbox("To Unit:", unit_type[selected_category])
 
 
-value = st.number_input("From:", min_value=1.0, format="%.2f")
+value = st.number_input("Value:", min_value=1.0, format="%.2f")
 
-if selected_category == "Temperature":
-    def convert_units(value, from_unit, to_unit):
-        from_unit = from_unit.lower()  # Case insensitive comparison
-        to_unit = to_unit.lower()
-
-        if from_unit == to_unit:
-            return value  # Same unit, no conversion
-
-        if from_unit == "Celsius":
-            if to_unit == "Fahrenheit":
-                return (value * 9/5) + 32
-            elif to_unit == "Kelvin":
-                return value + 273.15
-
-        elif from_unit == "Fahrenheit":
-            if to_unit == "Celsius":
-                return (value - 32) * 5/9
-            elif to_unit == "Kelvin":
-                return (value - 32) * 5/9 + 273.15
-
-        elif from_unit == "Kelvin":
-            if to_unit == "Celsius":
-                return value - 273.15
-            elif to_unit == "Fahrenheit":
-                return (value - 273.15) * 9/5 + 32
-
-        return None 
+if from_unit == to_unit:
+        st.success(f"{value} {from_unit} = {value} {to_unit}")
 else:
-    def convert_units(value, from_unit, to_unit):
-        try:
-            result = (value * ureg(from_unit)).to(to_unit)
-            return result.magnitude, result.units
-        except Exception as e:
-            return None, str(e)
-if selected_category == "Temperature":
-    result = convert_units(value, from_unit, to_unit)
+    result, formula = convert_units(value, from_unit, to_unit, selected_category)
     if result is not None:
-        st.success(f"{value} {from_unit} = {result:.2f} {to_unit}")
+        st.success(f"{value} {from_unit} = {result:.4f} {to_unit}")
+        st.subheader('Formula')
+        st.latex(formula)  # Display formula in LaTeX format
     else:
-        st.error("Conversion error: Invalid conversion")
-else:
-    result, unit = convert_units(value, from_unit, to_unit)
-    if result is not None:
-        st.success(f"{value} {from_unit} = {result:.4f} {unit}")
-    else:
-        st.error(f"Conversion error: {unit}")
+        st.error(f"Conversion error: {formula}")
+
